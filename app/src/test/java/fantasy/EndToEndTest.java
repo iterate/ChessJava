@@ -18,17 +18,6 @@ public class EndToEndTest {
 		FantasyChess fantasyChess = new FantasyChess();
 		Standings report = fantasyChess.play(games, fantasyChess.draftTeam());
 		assertEquals(45, report.gamesPlayed);
-
-//		int gamesPlayed = 0;
-//		for (Game game : games) {
-//			Board board = Board.newGame();
-//			board.game = game;
-//			boolean played = board.play(Move.parse(game.moves));
-//			if (played)
-//				gamesPlayed++;
-//		}
-//
-//		assertEquals(45, gamesPlayed);
 	}
 
 }
