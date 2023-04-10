@@ -8,6 +8,9 @@ import fantasy.pieces.Type;
 
 public class HalfMove {
 
+	static final Pattern ALGEBRAIC_NOTATION = Pattern
+			.compile("([PNBRQK])?([a-h])?([1-8])?(x)?([a-h][1-8])(=?[PNBRQ])?(\\+|#)?");
+
 	public int number;
 	public Type type;
 	public String to;
@@ -44,19 +47,20 @@ public class HalfMove {
 		String square = "";
 		boolean capture = false;
 
-		Pattern pattern = Pattern.compile("([PNBRQK])?([a-h])?([1-8])?(x)?([a-h][1-8])(=?[PNBRQ])?(\\+|#)?");
-		Matcher matcher = pattern.matcher(target);
+		Matcher matcher = ALGEBRAIC_NOTATION.matcher(target);
 		if (matcher.matches()) {
 			if (matcher.group(1) == null)
 				type = Type.PAWN;
 			else
 				type = Type.parse(matcher.group(1));
 			check = matcher.group(7) != null;
+
 			if (matcher.group(6) != null) {
 				promotedTo = Type.parse(matcher.group(6).substring(1));
 			}
 			if (matcher.group(2) != null)
 				fromFile = matcher.group(2).charAt(0);
+
 			if (matcher.group(3) != null)
 				fromRank = Integer.parseInt(matcher.group(3));
 			square = matcher.group(5);
@@ -68,11 +72,11 @@ public class HalfMove {
 
 		HalfMove halfMove = new HalfMove(type, square);
 		halfMove.capture = capture;
-		halfMove.checkmate = target.contains("#");
 		halfMove.fromFile = fromFile;
 		halfMove.fromRank = fromRank;
 		halfMove.check = check;
 		halfMove.promotedTo = promotedTo;
+		halfMove.checkmate = target.contains("#");
 		return halfMove;
 	}
 
