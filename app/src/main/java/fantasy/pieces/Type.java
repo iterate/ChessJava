@@ -13,6 +13,9 @@ public enum Type {
 	}
 
 	public static Type parse(String abbreviation) {
+		if (abbreviation == null)
+			return null;
+
 		for (Type p : Type.values())
 			if (p.abbreviation.equalsIgnoreCase(abbreviation))
 				return p;

@@ -41,6 +41,7 @@ public class HalfMove {
 
 		Type type = null;
 		boolean check = false;
+		boolean checkmate = false;
 		Type promotedTo = null;
 		Character fromFile = null;
 		Integer fromRank = null;
@@ -48,27 +49,29 @@ public class HalfMove {
 		boolean capture = false;
 
 		Matcher matcher = ALGEBRAIC_NOTATION.matcher(target);
-		if (matcher.matches()) {
-			if (matcher.group(1) == null)
-				type = Type.PAWN;
-			else
-				type = Type.parse(matcher.group(1));
-			check = matcher.group(7) != null;
+		if (!matcher.matches())
+			throw new ChessException("Cannot parse: \"" + target + "\"");
 
-			if (matcher.group(6) != null) {
-				promotedTo = Type.parse(matcher.group(6).substring(1));
-			}
-			if (matcher.group(2) != null)
-				fromFile = matcher.group(2).charAt(0);
+		if (matcher.group(1) == null)
+			type = Type.PAWN;
+		else
+			type = Type.parse(matcher.group(1));
 
-			if (matcher.group(3) != null)
-				fromRank = Integer.parseInt(matcher.group(3));
-			square = matcher.group(5);
+		if (matcher.group(2) != null)
+			fromFile = matcher.group(2).charAt(0);
 
-			if (matcher.group(4) != null)
-				capture = true;
+		if (matcher.group(3) != null)
+			fromRank = Integer.parseInt(matcher.group(3));
 
-		}
+		square = matcher.group(5);
+
+		capture = matcher.group(4) != null;
+
+		if (matcher.group(6) != null)
+			promotedTo = Type.parse(matcher.group(6).substring(1));
+
+		check = "+".equals(matcher.group(7));
+		checkmate = "#".equals(matcher.group(7));
 
 		HalfMove halfMove = new HalfMove(type, square);
 		halfMove.capture = capture;
@@ -76,7 +79,7 @@ public class HalfMove {
 		halfMove.fromRank = fromRank;
 		halfMove.check = check;
 		halfMove.promotedTo = promotedTo;
-		halfMove.checkmate = target.contains("#");
+		halfMove.checkmate = checkmate;
 		return halfMove;
 	}
 
