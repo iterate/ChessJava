@@ -11,7 +11,8 @@ public class EndToEndTest {
 
 	@Test
 	public void norwayChess2016() throws IOException {
-		List<Game> games = Game.parse(FileReader.readFile("Norway_Chess_2016_AllGames.pgn"));
+		Tournament t = Tournament.parse(FileReader.readFile("Norway_Chess_2016_AllGames.pgn"));
+		List<Game> games = t.games;
 
 		assertEquals(45, games.size());
 

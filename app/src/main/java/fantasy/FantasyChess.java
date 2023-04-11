@@ -23,12 +23,10 @@ public class FantasyChess {
 			System.out.println("Missing argument: [filename]");
 			return;
 		}
-
-		List<Game> games = Game.parse(FileReader.readFile(fileName));
-
+		Tournament t = Tournament.parse(FileReader.readFile(fileName));
 		FantasyChess fantasyChess = new FantasyChess();
 		Set<Piece> myTeam = fantasyChess.draftTeam();
-		Standings standings = fantasyChess.play(games, myTeam, fileName);
+		Standings standings = fantasyChess.play(t.games, myTeam, fileName);
 
 		System.out.println(standings);
 	}

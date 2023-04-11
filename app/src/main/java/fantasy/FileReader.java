@@ -12,9 +12,6 @@ public class FileReader {
 		if (inputStream == null) 
 			inputStream = new FileInputStream(fileName);
 		
-//		if (inputStream.i) {
-//			throw new IOException("File not found: " + fileName);
-//		}
 		try (Scanner scanner = new Scanner(inputStream, "UTF-8")) {
 			return scanner.useDelimiter("\\A").next();
 		}

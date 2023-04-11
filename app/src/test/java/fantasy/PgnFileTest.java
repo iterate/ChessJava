@@ -17,36 +17,36 @@ public class PgnFileTest {
 	public void parseSingleEvent() throws IOException {
 		String rawPgn = FileReader.readFile("Garry Kasparov_vs_Veselin Topalov_1999.__.__.pgn");
 
-		List<Game> events = Game.parse(rawPgn);
+		List<Game> games = Tournament.parse(rawPgn).games;
 
-		assertEquals(1, events.size());
+		assertEquals(1, games.size());
 
-		Game event = events.get(0);
-		assertEquals("It (cat.17)", event.event);
-		assertEquals("Garry Kasparov", event.playerWhite);
-		assertEquals("Veselin Topalov", event.playerBlack);
-		assertEquals(Color.WHITE, event.winner);
-		assertNotNull(event.moves);
-		assertFalse(event.moves.isEmpty());
+		Game game = games.get(0);
+		assertEquals("It (cat.17)", game.event);
+		assertEquals("Garry Kasparov", game.playerWhite.name);
+		assertEquals("Veselin Topalov", game.playerBlack.name);
+		assertEquals(Color.WHITE, game.winner);
+		assertNotNull(game.moves);
+		assertFalse(game.moves.isEmpty());
 
 	}
 
 	@Test
 	public void parseMultipleEvents() throws IOException {
 		String rawPgn = FileReader.readFile("Norway_Chess_2016_AllGames.pgn");
-		List<Game> events = Game.parse(rawPgn);
+		List<Game> games = Tournament.parse(rawPgn).games;
 
-		assertEquals(45, events.size());
+		assertEquals(45, games.size());
 
-		Game event1 = events.get(0);
-		assertEquals("Kramnik, Vladimir", event1.playerWhite);
-		assertNotNull(event1.moves);
-		assertFalse(event1.moves.isEmpty());
+		Game game1 = games.get(0);
+		assertEquals("Kramnik, Vladimir", game1.playerWhite.name);
+		assertNotNull(game1.moves);
+		assertFalse(game1.moves.isEmpty());
 
-		Game event45 = events.get(44);
-		assertEquals("Li, Chao", event45.playerWhite);
-		assertNotNull(event45.moves);
-		assertFalse(event45.moves.isEmpty());
+		Game game45 = games.get(44);
+		assertEquals("Li, Chao", game45.playerWhite.name);
+		assertNotNull(game45.moves);
+		assertFalse(game45.moves.isEmpty());
 
 	}
 
