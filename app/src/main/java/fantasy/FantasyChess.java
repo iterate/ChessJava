@@ -15,16 +15,30 @@ import fantasy.pieces.Rook;
 public class FantasyChess {
 
 	public static void main(String[] args) throws IOException {
-		List<Game> games = Game.parse(FileReader.readFile("Norway_Chess_2016_AllGames.pgn"));
+
+		String fileName;
+		if (args.length > 0)
+			fileName = args[0];
+		else {
+			System.out.println("Missing argument: [filename]");
+			return;
+		}
+
+		List<Game> games = Game.parse(FileReader.readFile(fileName));
 
 		FantasyChess fantasyChess = new FantasyChess();
 		Set<Piece> myTeam = fantasyChess.draftTeam();
-		Standings standings = fantasyChess.play(games, myTeam);
+		Standings standings = fantasyChess.play(games, myTeam, fileName);
 
 		System.out.println(standings);
 	}
 
 	public Standings play(List<Game> games, Set<Piece> team) {
+		return play(games, team, null);
+	}
+
+	public Standings play(List<Game> games, Set<Piece> team, String fileName) {
+
 		int gamesPlayed = 0;
 		for (Game game : games) {
 			Board board = Board.newGame();
@@ -37,6 +51,8 @@ public class FantasyChess {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("\nFANTASY CHESS - Every piece matters\n");
 		buffer.append("-".repeat(100) + "\n");
+		if (fileName != null)
+			buffer.append("File: " + fileName + "\n");
 		buffer.append("Team: ");
 		for (Piece p : team)
 			buffer.append(p.type + " " + p.originalPosition.toNotation() + ", ");
