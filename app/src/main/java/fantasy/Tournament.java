@@ -16,12 +16,6 @@ public class Tournament {
 	final List<Game> games = new ArrayList<>();
 	final Map<String, Player> players = new LinkedHashMap<>();
 
-	@Override
-	public String toString() {
-		return "Tournament [name=" + name + ", date=" + date + ", site=" + site + ", games=" + games.size()
-				+ ", players=" + players.size() + "]";
-	}
-
 	public static Tournament parse(String... pgns) {
 		Tournament tournament = new Tournament();
 		List<Game> games = tournament.games;
@@ -104,6 +98,12 @@ public class Tournament {
 			player = players.get(name);
 
 		return player;
+	}
+
+	@Override
+	public String toString() {
+		return "Tournament [name=" + name + ", date=" + date + ", site=" + site + ", games=" + games.size()
+				+ ", players=" + players.size() + "]";
 	}
 
 }
