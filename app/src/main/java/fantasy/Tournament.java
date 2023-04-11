@@ -73,10 +73,10 @@ public class Tournament {
 						game.round = value;
 						break;
 					case "WHITE":
-						game.playerWhite = new Player(value);
+						game.playerWhite = tournament.addPlayer(value);
 						break;
 					case "BLACK":
-						game.playerBlack = new Player(value);
+						game.playerBlack = tournament.addPlayer(value);
 						break;
 					case "RESULT":
 						if ("1-0".equals(value))
@@ -91,7 +91,19 @@ public class Tournament {
 				}
 			}
 		}
+
 		return tournament;
+	}
+
+	public Player addPlayer(String name) {
+		Player player;
+		if (!players.containsKey(name)) {
+			player = new Player(name);
+			players.put(name, player);
+		} else
+			player = players.get(name);
+
+		return player;
 	}
 
 }
