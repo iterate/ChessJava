@@ -35,7 +35,15 @@ public class Board {
 				return false;
 			}
 		}
+		score();
 		return true;
+	}
+
+	public void score() {
+		for (Bet bet : bets) {
+			Piece p = bet.piece;
+			bet.score = p.moves;
+		}
 	}
 
 	// for testing and debugging only
@@ -83,10 +91,6 @@ public class Board {
 				}
 			}
 		}
-		score();
-	}
-
-	private void score() {
 	}
 
 	boolean pathBlocked(Position from, Position to, Color color) {
