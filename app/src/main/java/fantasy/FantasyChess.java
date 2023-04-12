@@ -1,16 +1,7 @@
 package fantasy;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
-
-import fantasy.pieces.Bishop;
-import fantasy.pieces.Color;
-import fantasy.pieces.Knight;
-import fantasy.pieces.Pawn;
-import fantasy.pieces.Piece;
-import fantasy.pieces.Rook;
 
 public class FantasyChess {
 
@@ -24,24 +15,22 @@ public class FantasyChess {
 			return;
 		}
 		Tournament t = Tournament.parse(FileReader.readFile(fileName));
+		Set<Bet> myBets = t.draftTeam();
 		FantasyChess fantasyChess = new FantasyChess();
-		Set<Piece> myTeam = fantasyChess.draftTeam();
-		Standings standings = fantasyChess.play(t.games, myTeam, fileName);
+		Standings standings = fantasyChess.play(t, myBets);
 
+		if (fileName != null)
+			System.out.println("File: " + fileName + "\n");
 		System.out.println(standings);
 	}
 
-	public Standings play(List<Game> games, Set<Piece> team) {
-		return play(games, team, null);
-	}
-
-	public Standings play(List<Game> games, Set<Piece> team, String fileName) {
+	public Standings play(Tournament tournament, Set<Bet> bets) {
 
 		int gamesPlayed = 0;
-		for (Game game : games) {
+		for (Game game : tournament.games) {
 			Board board = Board.newGame();
 			board.game = game;
-			board.populate(team);
+			board.populate(bets);
 			boolean played = board.play(Move.parse(game.moves));
 			if (played)
 				gamesPlayed++;
@@ -49,33 +38,19 @@ public class FantasyChess {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("\nFANTASY CHESS - Every piece matters\n");
 		buffer.append("-".repeat(100) + "\n");
-		if (fileName != null)
-			buffer.append("File: " + fileName + "\n");
+
 		buffer.append("Team: ");
-		for (Piece p : team)
-			buffer.append(p.type + " " + p.originalPosition.toNotation() + ", ");
+		for (Bet bet : bets)
+			buffer.append(
+					bet.piece.type + " " + bet.piece.originalPosition.toNotation() + " (" + bet.player.name + "), ");
 		buffer.deleteCharAt(buffer.lastIndexOf(","));
 		buffer.append("\n\n");
 
 		buffer.append(gamesPlayed + " matches played:\n");
-		for (Piece piece : team) {
-			buffer.append("\t" + piece.report() + "\n");
+		for (Bet bet : bets) {
+			buffer.append("\t" + bet.piece.report() + "\n");
 		}
 		return new Standings(gamesPlayed, buffer.toString());
-	}
-
-	public Set<Piece> draftTeam() {
-		Set<Piece> team = new LinkedHashSet<>();
-		team.add(new Rook(Color.WHITE, "a1"));
-		team.add(new Knight(Color.WHITE, "b1"));
-		team.add(new Bishop(Color.WHITE, "f1"));
-		team.add(new Knight(Color.WHITE, "g1"));
-		team.add(new Pawn(Color.WHITE, "a2"));
-		team.add(new Pawn(Color.WHITE, "d2"));
-		team.add(new Pawn(Color.WHITE, "e2"));
-		team.add(new Pawn(Color.WHITE, "f2"));
-		team.add(new Pawn(Color.WHITE, "h2"));
-		return team;
 	}
 
 }

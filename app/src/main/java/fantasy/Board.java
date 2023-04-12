@@ -10,14 +10,15 @@ import fantasy.pieces.Color;
 import fantasy.pieces.Knight;
 import fantasy.pieces.Pawn;
 import fantasy.pieces.Piece;
-import fantasy.pieces.Type;
 import fantasy.pieces.Rook;
+import fantasy.pieces.Type;
 
 public class Board {
 
 	public Game game;
 
-	Set<Piece> pieces = new LinkedHashSet<Piece>();
+	final Set<Piece> pieces = new LinkedHashSet<>();
+	final Set<Bet> bets = new LinkedHashSet<>();
 
 	public boolean play(Move[] moves) {
 		int i = 0;
@@ -82,6 +83,10 @@ public class Board {
 				}
 			}
 		}
+		score();
+	}
+
+	private void score() {
 	}
 
 	boolean pathBlocked(Position from, Position to, Color color) {
@@ -301,12 +306,15 @@ public class Board {
 		return pieces.stream().filter(piece -> piece.color == color).sorted().collect(Collectors.toList());
 	}
 
-	public void populate(Set<Piece> myTeam) {
-		for (Piece p : myTeam) {
-			pieces.remove(pieceAt(p.originalPosition.toNotation()));
-			pieces.add(p);
-			p.reset();
+	public void populate(Set<Bet> bets) {
+		for (Bet bet : bets) {
+			// TODO: Only replace pieces of bet.player
+			pieces.remove(pieceAt(bet.piece.originalPosition.toNotation()));
+			pieces.add(bet.piece);
+			bet.piece.reset();
 		}
+		this.bets.clear();
+		this.bets.addAll(bets);
 	}
 
 }

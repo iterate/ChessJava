@@ -13,7 +13,7 @@ public class GameTest {
 	void twoPlayers() throws IOException {
 		String pgn = FileReader.readFile("Garry Kasparov_vs_Veselin Topalov_1999.__.__.pgn");
 		Tournament tournament = Tournament.parse(pgn);
-
+		
 		assertEquals(1, tournament.games.size());
 
 		assertEquals(2, tournament.players.size());

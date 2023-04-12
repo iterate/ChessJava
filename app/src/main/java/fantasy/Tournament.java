@@ -2,10 +2,16 @@ package fantasy;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import fantasy.pieces.Bishop;
 import fantasy.pieces.Color;
+import fantasy.pieces.Knight;
+import fantasy.pieces.Pawn;
+import fantasy.pieces.Rook;
 
 public class Tournament {
 
@@ -98,6 +104,21 @@ public class Tournament {
 			player = players.get(name);
 
 		return player;
+	}
+
+	public Set<Bet> draftTeam() {
+		Player p = players.values().iterator().next();
+		Set<Bet> team = new LinkedHashSet<>();
+		team.add(new Bet(p, new Rook(Color.WHITE, "a1")));
+		team.add(new Bet(p, new Knight(Color.WHITE, "b1")));
+		team.add(new Bet(p, new Bishop(Color.WHITE, "f1")));
+		team.add(new Bet(p, new Knight(Color.WHITE, "g1")));
+		team.add(new Bet(p, new Pawn(Color.WHITE, "a2")));
+		team.add(new Bet(p, new Pawn(Color.WHITE, "d2")));
+		team.add(new Bet(p, new Pawn(Color.WHITE, "e2")));
+		team.add(new Bet(p, new Pawn(Color.WHITE, "f2")));
+		team.add(new Bet(p, new Pawn(Color.WHITE, "h2")));
+		return team;
 	}
 
 	@Override

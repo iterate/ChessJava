@@ -298,8 +298,8 @@ class BoardTest {
 		Piece d2Pawn = board.pieceAt("d2");
 
 		Piece teamPawn = new Pawn(Color.WHITE, "d2");
-		Set<Piece> team = new LinkedHashSet<>();
-		team.add(teamPawn);
+		Set<Bet> team = new LinkedHashSet<>();
+		team.add(new Bet(new Player("Test Player"), teamPawn));
 		board.populate(team);
 
 		assertEquals(teamPawn, board.pieceAt("d2"));
