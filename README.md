@@ -12,5 +12,5 @@ gradle build
 
 ## Run
 ```
-gradle run --args="[Path to PGN file]"
+gradle run
 ```
