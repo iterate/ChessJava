@@ -91,6 +91,12 @@ public class Tournament {
 				}
 			}
 		}
+		if (tournament.games.size() > 0) {
+			Game firstGame = tournament.games.iterator().next();
+			tournament.name = firstGame.event;
+			tournament.date = firstGame.date;
+			tournament.site = firstGame.site;
+		}
 
 		return tournament;
 	}
