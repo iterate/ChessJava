@@ -50,10 +50,6 @@ public class Piece implements Comparable<Piece> {
 		this.isCaptured = false;
 	}
 
-	public String report() {
-		return type.name() + " " + originalPosition.toNotation() + " - Moves: " + moves + ", Captures: " + captures
-				+ " Captured: " + this.captured;
-	}
 
 	@Override
 	public String toString() {

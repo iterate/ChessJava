@@ -9,7 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import fantasy.pieces.Color;
-import fantasy.pieces.Pawn;
+import fantasy.pieces.Piece;
+import fantasy.pieces.Type;
 
 public class FantasyChessTest {
 
@@ -18,18 +19,13 @@ public class FantasyChessTest {
 
 		Tournament t = Tournament.parse(FileReader.readFile("Garry Kasparov_vs_Veselin Topalov_1999.__.__.pgn"));
 
-		FantasyChess chess = new FantasyChess();
+		Bet whiteQueen = new Bet(t.players.get("Garry Kasparov"), new Piece(Type.QUEEN, Color.WHITE, "d1"));
 		Set<Bet> bets = new LinkedHashSet<>();
+		bets.add(whiteQueen);
+		new FantasyChess().play(t, bets);
 
-		Bet bet1 = new Bet(t.players.get("Garry Kasparov"), new Pawn(Color.WHITE, "h2"));
-		bets.add(bet1);
-		Bet bet2 = new Bet(t.players.get("Garry Kasparov"), new Pawn(Color.WHITE, "g2"));
-		bets.add(bet2);
-
-		chess.play(t, bets);
-
-		assertEquals(0, bet1.score);
-		assertEquals(1, bet2.score);
+		// White Queen has 13 moves and 5 captures in this game
+		assertEquals(115, whiteQueen.calculateScore());
 
 	}
 

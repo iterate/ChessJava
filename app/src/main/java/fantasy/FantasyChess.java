@@ -48,7 +48,7 @@ public class FantasyChess {
 
 		buffer.append(gamesPlayed + " matches played:\n");
 		for (Bet bet : bets) {
-			buffer.append("\t" + bet.piece.report() + "\n");
+			buffer.append("\t" + bet.report() + "\n");
 		}
 		return new Standings(gamesPlayed, buffer.toString());
 	}

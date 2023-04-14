@@ -35,15 +35,9 @@ public class Board {
 				return false;
 			}
 		}
-		score();
+		for (Bet bet : bets)
+			bet.calculateScore();
 		return true;
-	}
-
-	public void score() {
-		for (Bet bet : bets) {
-			Piece p = bet.piece;
-			bet.score = p.moves;
-		}
 	}
 
 	// for testing and debugging only

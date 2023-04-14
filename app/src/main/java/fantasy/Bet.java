@@ -19,6 +19,16 @@ public class Bet {
 		this.piece = piece;
 	}
 
+	public int calculateScore() {
+		return (piece.moves * 5) + (piece.captures * 10);
+	}
+
+	public String report() {
+		return piece.type.name() + " (" + player.shortName() + ") " + piece.originalPosition.toNotation() + ": Score ["
+				+ calculateScore() + "] (" + piece.moves + " moves, " + piece.captures + " captures, " + piece.captured
+				+ " captured)";
+	}
+
 	@Override
 	public String toString() {
 		return "Bet [player=" + player.name + ", piece=" + piece.type.name() + ", score=" + score + "]";
